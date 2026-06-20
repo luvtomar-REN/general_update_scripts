@@ -1,0 +1,8 @@
+/*UPDATE sales.customer_orders SET total_price = '$250.00' WHERE customer_order_id = 137802;
+UPDATE revenue_generation.work_orders SET work_order_name = REPLACE(REPLACE(work_order_name,'WAR',''),'RMA','') 
+WHERE customer_order_id = 137802;
+UPDATE sales.order_tickets SET price = '$250.00',work_order_name = REPLACE(REPLACE(work_order_name,'WAR',''),'RMA','') 
+WHERE customer_order_id = 137802;*/
+SELECT * FROM sales.customer_orders WHERE customer_order_id = 137802;
+SELECT * FROM revenue_generation.work_orders WHERE customer_order_id = 137802;
+SELECT * FROM sales.order_tickets WHERE purchase_order = '0082238749-1';

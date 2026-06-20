@@ -1,0 +1,12 @@
+/*UPDATE sales.order_ticket_serials SET serial_number = 'LBFJTU0312A695HD120401993' WHERE order_ticket_id = 40610;
+UPDATE sales.order_tickets SET serial_number = 'LBFJTU0312A695HD120401993' WHERE customer_order_id = 59431;
+UPDATE sales.customer_orders SET notes = 'LBFJTU0312A695HD120401993 0081287808-1 REPAIR ' WHERE customer_order_id = 59431;
+UPDATE revenue_generation.work_orders SET notes = 'LBFJTU0312A695HD120401993 0081287808-1 REPAIR ' WHERE customer_order_id = 59431;
+UPDATE sales.vzw_nokia_pre_alerts SET serial_number = 'LBFJTU0312A695HD120401993' WHERE obd_number = '0081287808-1';
+UPDATE sales.att_ran_pre_alerts SET serial_number = 'LBFJTU0312A695HD120401993' WHERE rma_number = '0081287808-1';*/
+
+SELECT * FROM sales.order_ticket_serials WHERE order_ticket_id = 40610;
+SELECT * FROM sales.order_tickets WHERE customer_order_id = 59431;
+SELECT * FROM sales.customer_orders WHERE customer_order_id = 59431;
+SELECT * FROM revenue_generation.work_orders WHERE customer_order_id = 59431;
+SELECT * FROM sales.order_tickets WHERE purchase_order = '0081287808-1';

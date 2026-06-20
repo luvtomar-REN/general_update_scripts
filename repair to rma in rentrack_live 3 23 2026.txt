@@ -1,0 +1,12 @@
+/*UPDATE sales.customer_orders SET total_price = 0 WHERE customer_order_id IN 
+(129751,
+129753);
+UPDATE revenue_generation.work_orders SET work_order_name = CONCAT('RMA', work_order_name) WHERE customer_order_id IN 
+(129751,
+129753);
+UPDATE sales.order_tickets SET price = 0, work_order_name = CONCAT('RMA', work_order_name) WHERE customer_order_id IN 
+(129751,
+129753);*/
+SELECT * FROM sales.order_tickets WHERE purchase_order IN 
+('0082141533-1',
+'0082141534-1');

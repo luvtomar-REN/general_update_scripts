@@ -1,0 +1,11 @@
+/*INSERT INTO customers.customer_employees 
+(first_name, last_name, title, phone, email, contract_id, customer_id) 
+VALUES 
+('Richard','Nelson','','+1 (503) 519-7919','rn2536@att.com',142,491),
+('Robert','Carlier','','','rc111h@att.com',142,491),
+('Thomas','Johns','','919-828-7618','tj3201@att.com',142,491),
+('Spencer','Cottman','','','IPTRC@att.com',142,491),
+('Tony','Kirkby','','','tkirkby@renrns.com',142,491);*/
+SELECT customer_employee_id, first_name, last_name, title, phone, email, address_id, contract_id, ap_technician_id, customer_id
+FROM customers.customer_employees WHERE CONCAT(first_name, ' ', last_name) IN 
+('Richard Nelson', 'Robert Carlier', 'Thomas Johns', 'Spencer Cottman', 'Tony Kirkby', 'Patrick Jensen', 'Luv Tomar');

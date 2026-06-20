@@ -1,0 +1,33 @@
+--For missing SKUs
+/*INSERT INTO products_and_inventory.products (upc_code,stock_keeping_unit,line_of_business_id,platform_id,clei7) VALUES 
+('',3JR53349ABAC',1,1,'');
+INSERT INTO products_and_inventory.product_revisions (product_id,hardware_revision,software_revision) VALUES 
+((SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC'),'Unspecified','Unspecified');*/
+
+--For missing pricing
+/*INSERT INTO customers.prices (contract_id,product_revision_id,currency_type_id,job_type_id,price,route_id,status_id,sku,clei7,location_id) VALUES 
+(72,(SELECT revision_id FROM products_and_inventory.product_revisions WHERE product_id = 
+(SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC')),
+2,1,'$280.00',1,9,3JR53349ABAC','',1);
+INSERT INTO customers.prices (contract_id,product_revision_id,currency_type_id,job_type_id,price,route_id,status_id,sku,clei7,location_id) VALUES 
+(72,(SELECT revision_id FROM products_and_inventory.product_revisions WHERE product_id = 
+(SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC')),
+2,2,'$90.00',5,9,3JR53349ABAC','',1);
+INSERT INTO customers.prices (contract_id,product_revision_id,currency_type_id,job_type_id,price,route_id,status_id,sku,clei7,location_id) VALUES 
+(72,(SELECT revision_id FROM products_and_inventory.product_revisions WHERE product_id = 
+(SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC')),
+2,4,'$0.00',1,9,3JR53349ABAC','',1);
+INSERT INTO customers.prices (contract_id,product_revision_id,currency_type_id,job_type_id,price,route_id,status_id,sku,clei7,location_id) VALUES 
+(72,(SELECT revision_id FROM products_and_inventory.product_revisions WHERE product_id = 
+(SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC')),
+2,10,'$90.00',5,9,3JR53349ABAC','',1);
+INSERT INTO customers.prices (contract_id,product_revision_id,currency_type_id,job_type_id,price,route_id,status_id,sku,clei7,location_id) VALUES 
+(72,(SELECT revision_id FROM products_and_inventory.product_revisions WHERE product_id = 
+(SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC')),
+2,11,'$90.00',1,9,3JR53349ABAC','',1);
+INSERT INTO customers.prices (contract_id,product_revision_id,currency_type_id,job_type_id,price,route_id,status_id,sku,clei7,location_id) VALUES 
+(72,(SELECT revision_id FROM products_and_inventory.product_revisions WHERE product_id = 
+(SELECT product_id FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC')),
+2,15,'$95.00',14,9,3JR53349ABAC','',1);*/
+SELECT * FROM products_and_inventory.products WHERE stock_keeping_unit = 3JR53349ABAC';
+SELECT * FROM customers.prices WHERE sku = 3JR53349ABAC';

@@ -1,0 +1,58 @@
+/*UPDATE OrderTicket SET PickedBy = NULL, DatePicked = NULL, WorkOrderNo = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(WorkOrderNo,'BH-',''),'ROG-',''),'RUN-',''),'REP-',''),'UNPI-',''),'PNPI-','') WHERE WorkOrderId IN 
+(360372);
+UPDATE T009_CUSTOMER_ORDERS SET C009_EXPECTED_DATE = '2037-12-31' WHERE C009_ORDER_ID IN 
+(SELECT SalesOrderID FROM OrderTicket WHERE WorkOrderId = 360372);
+UPDATE T009_WORK_ORDERS SET C009_STATUS_ID = 81, C009_STAGE_ID = 18, C009_EXPECTED_DATE = '2037-12-31', C009_FULFILLMENT_DATE = '2037-12-31', C009_WORK_ORDER_NO = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(C009_WORK_ORDER_NO,'BH-',''),'ROG-',''),'RUN-',''),'REP-',''),'UNPI-',''),'PNPI-','') WHERE C009_ORDER_ID IN 
+(360372);
+UPDATE T010_WORK_ORDER_DETAILS SET C010_STATUS_ID = 81 WHERE C010_ORDER_ID IN 
+(360372);
+DELETE FROM SerialNum WHERE OnWorkOrderId IN (360372) OR WorkOrderId IN (360372);
+DELETE FROM Kit WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM Test WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM Repair WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM Debug WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM MechanicalRepair WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM OnHoldForComponents WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM ECN WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM Kit_PreClean WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM QualityControl WHERE CustomerRef IN (SELECT CustomerRef FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372');
+DELETE FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372';
+DELETE FROM Renaissance.dbo.ScheduledDates WHERE work_order_id IN (360372);
+UPDATE T065_PROD_PICK_LOCS
+SET C065_QUANTITY = C065_QUANTITY -1, C065_AVAIL_QUANTITY = C065_AVAIL_QUANTITY-1
+WHERE C065_PICK_LOC_ID IN (SELECT TOP 1 C064_PICK_LOC_ID 
+FROM T064_PICKING_LOCATIONS 
+JOIN T005_WAREHOUSES 
+ON C064_WHID = C005_WAREHOUSE_ID 
+JOIN OrderTicket
+ON WareHouse = C005_WAREHOUSE_NAME
+WHERE
+WorkOrderId IN (360372)
+AND C064_PICK_LOC_NAME = 'Receiving'
+ORDER BY Pk_Id DESC)
+AND C065_PRODUCT_ID IN 
+(SELECT top 1 C002_PRODUCT_ID FROM T002_PRODUCTS 
+WHERE C002_ACTIVE = 1
+and C002_PRODUCT_SKU = IIF((SELECT WorkOrderNo FROM OrderTicket WHERE WorkOrderId IN (360372)) = '0' OR (SELECT TOP 1 PartNumber FROM OrderTicket WHERE WorkOrderId IN (360372)) like 'R-%',--If no work order, use upper level
+(SELECT TOP 1 PartNumber FROM OrderTicket WHERE WorkOrderId IN (360372)),
+(SELECT TOP 1 CONCAT('R-', PartNumber) FROM OrderTicket WHERE WorkOrderId IN (360372))
+)
+);
+
+
+/*In order for this to work you must first ensure it exists, this is done in the receiving application*/
+UPDATE T014_INVENTORY 
+SET C014_QUANTITY = C014_QUANTITY - 1,  C014_AVAIL_QUANTITY = C014_AVAIL_QUANTITY -1
+WHERE C014_PRODUCT_ID IN (SELECT TOP 1 C002_PRODUCT_ID FROM T002_PRODUCTS WHERE C002_ACTIVE = 1 and  C002_PRODUCT_SKU =  
+IIF((SELECT WorkOrderNo FROM OrderTicket WHERE WorkOrderId IN (360372)) = '0' OR (SELECT TOP 1 PartNumber FROM OrderTicket WHERE WorkOrderId IN (360372)) like 'R-%',--If no work order, use upper level
+(SELECT TOP 1 PartNumber FROM OrderTicket WHERE WorkOrderId IN (360372)),
+(SELECT TOP 1 CONCAT('R-', PartNumber) FROM OrderTicket WHERE WorkOrderId IN (360372))
+))--ProductID
+AND C014_WAREHOUSE_ID IN (SELECT TOP 1 C005_WAREHOUSE_ID FROM T005_WAREHOUSES WHERE T005_WAREHOUSES.C005_ACTIVE = 1 AND T005_WAREHOUSES.C005_WAREHOUSE_NAME IN (SELECT TOP 1 WareHouse FROM OrderTicket WHERE WorkOrderId IN (360372)));
+DELETE FROM RenaissanceDW.dbo.DailyCustomerOrderMetrics WHERE customer_order_number = (SELECT PurchaseOrder FROM OrderTicket WHERE WorkOrderId IN (360372)) AND order_action = 'Received';*/
+
+SELECT * FROM OrderTicket WHERE WorkOrderId IN 
+(360372);
+SELECT * FROM SerialNum WHERE OnWorkOrderId IN (360372) OR WorkOrderId IN (360372);
+SELECT * FROM RenaissanceDW.dbo.DailyCustomerOrderMetrics WHERE work_order_id = 360372 AND order_action = 'Received';
+SELECT * FROM Common_PreAlert WHERE WorkOrderNum LIKE '%-360372';

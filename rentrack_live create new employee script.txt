@@ -1,0 +1,6 @@
+/*INSERT INTO organization.employees (position_id,first_name,last_name,department_id,supervisor_id,home_address_id,work_email,location_id, phone) 
+VALUES (125,'Cameron','Bodkin-Dick',18,19,2,'cbodkin@renrns.com',2,'6136202617');*/
+SELECT * FROM organization.departments;--18
+SELECT * FROM organization.position_name ORDER BY position_name;--125
+SELECT * FROM organization.employees WHERE first_name = 'Hunter';--19
+SELECT * FROM organization.employees WHERE first_name = 'Cameron';
