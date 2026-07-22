@@ -1,0 +1,7 @@
+--This is the script used to add employees in organization.employees to the recipient lists for report generators 
+--in reporting.report_details
+/*INSERT INTO reporting.report_recipients VALUES (78,288);*/
+
+SELECT * FROM reporting.report_details WHERE report_name IN ('Terra Nova Morning Meeting Data');--78
+SELECT * FROM organization.employees WHERE CONCAT(first_name, ' ', last_name) = 'Maria Polanco';--288
+SELECT * FROM reporting.report_recipients WHERE report_id IN (78) AND employee_id = 288;
